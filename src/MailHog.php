@@ -451,10 +451,10 @@ class MailHog extends Module
     {
         $this->accessInboxFor($address);
         $lastEmail = $this->currentInbox[count($this->currentInbox) - 1];
-        if (1 !== preg_match($pattern, $lastEmail->Content->Body, $matches)) {
+        $emailContent = quoted_printable_decode($lastEmail->Content->Body);
+        if (1 !== preg_match($pattern, $emailContent, $matches)) {
             $this->assertNotEmpty($matches, "No matches found for $pattern");
         }
-
         return preg_replace('/(=)?(\s)/', '', $matches[0]);
     }
 
